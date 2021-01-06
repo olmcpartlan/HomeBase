@@ -13,9 +13,10 @@ std::string create_json(std::string &path)
     // Create an empty property tree object.
     pt::ptree tree;
 
+   pt::ptree all_elements;
 
-    // Iterate over each element in directory
-    for (boost::filesystem::directory_entry &entry : boost::make_iterator_range(boost::filesystem::directory_iterator(path), {}))
+    // boost::filesystem::directory_entry in boost::filesystem::directory_iterator(path)
+    for (auto &entry : boost::make_iterator_range(boost::filesystem::directory_iterator(path), {}))
     {
         pt::ptree element;
 
@@ -23,18 +24,21 @@ std::string create_json(std::string &path)
         bool is_directory = boost::filesystem::is_directory(entry.path().string());
 
         // Create the JSON structure.    
-        element.add("full-path", entry.path().string());
-        element.add("file-name", entry.path().filename().string());
-        element.add("file-type", is_directory ? "directory" : "file");
-        element.add("file-size", !is_directory ? boost::filesystem::file_size(entry.path().string()) : 0 );
+        element.put("full-path", entry.path().string());
+        element.put("file-name", entry.path().filename().string());
+        element.put("file-type", is_directory ? "directory" : "file");
+        element.put("file-size", !is_directory ? boost::filesystem::file_size(entry.path().string()) : 0 );
 
 
         std::string file_name = entry.path().stem().string();
 
         // Add each element to the parent list of elements
-        tree.push_back(pt::ptree::value_type(file_name, element));
+        all_elements.push_back(std::make_pair(file_name, element));
 
     }
+
+    tree.push_back(std::make_pair("elements", all_elements));
+
 
     // Put a vector of numbers into the tree
     /*
