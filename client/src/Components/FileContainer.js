@@ -8,13 +8,29 @@ export default class FileContainer extends Component {
     this.state = {
       files: this.props.files
     }
-    console.log(this.state.files[0]);
-    console.log('from child');
+  }
+
+  mapElements(elements, directoryPath) {
+    return(
+      <div>
+        <p>{directoryPath}</p>
+        {elements.map((element, i) => {
+          return <p>{element[0]}</p>
+        })}
+      </div>
+    )
+
   }
 
   render() {
-    return(
+    const dirPath = this.state.files['directory-path'];
+    const elements = Object.entries(this.state.files['elements']);
+    return (
       <div>
+        {elements != undefined
+        ? this.mapElements(elements, dirPath)
+        : <p></p>
+        }
       </div>
 
     );

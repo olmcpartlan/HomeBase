@@ -15,12 +15,12 @@ export default class Appp extends Component {
   componentDidMount() {
     fetch("/boost_lib")
       .then(res => res.json())
-      .then(res => {
+      .then(res => 
         this.setState({
           apiResponded: true,
           files: res
         })
-      })
+      )
   }
 
   render() {
@@ -29,12 +29,8 @@ export default class Appp extends Component {
         { !this.state.apiResponded 
         ? <p>hasn't loaded</p>
         : <div>
-          <p>{this.state.files.length}</p>
-          </div>
-        }
-        {this.state.apiResponded &&
           <FileContainer files={this.state.files} />
-        
+          </div>
         }
 
       </div>
