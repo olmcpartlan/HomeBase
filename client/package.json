@@ -4,11 +4,13 @@
   "private": true,
   "proxy": "http://0.0.0.0:8000",
   "dependencies": {
+    "@material-ui/core": "^4.11.2",
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
     "proxy": "^1.0.2",
     "react": "^17.0.1",
+    "react-css-grid": "^2.0.0-0",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
     "web-vitals": "^0.2.4"

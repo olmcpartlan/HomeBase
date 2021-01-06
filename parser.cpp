@@ -37,6 +37,7 @@ std::string create_json(std::string &path)
 
     }
 
+    tree.put("directory-path", path);
     tree.push_back(std::make_pair("elements", all_elements));
 
 
