@@ -8,6 +8,7 @@ export default class FileContainer extends Component {
     this.state = {
       files: this.props.files
     }
+    console.log(this.state.files);
   }
 
   mapElements(elements, directoryPath) {

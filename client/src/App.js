@@ -1,39 +1,33 @@
-import react, { Component } from 'react';
+import react, { Component, useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import FileContainer from './Components/FileContainer';
 
-export default class Appp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      apiResponded: false,
-      files: []
-    }
-  }
+export default function App() {
+  const [elements, setElements] = useState({})
+  let apiResponse = {};
+  let apiResponded = false;
 
-  componentDidMount() {
-    fetch("/boost_lib")
-      .then(res => res.json())
-      .then(res => 
-        this.setState({
-          apiResponded: true,
-          files: res
-        })
-      )
-  }
+  // Probably need useEffect lifecycle but no luck.
+  fetch("/boost_lib")
+    .then(res => res.json())
+    .then(res => {
+      setElements(res)
+      apiResponded = true
+    });
 
-  render() {
-    return(
+  return (
+    <div>
       <div>
-        { !this.state.apiResponded 
-        ? <p>hasn't loaded</p>
-        : <div>
-          <FileContainer files={this.state.files} />
+        {apiResponded
+          ? <p>hasn't loaded</p>
+          : <div>
+            <FileContainer files={elements} />
           </div>
         }
 
       </div>
-    )
-  }
+    </div>
+  )
+
 }
