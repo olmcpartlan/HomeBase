@@ -1,4 +1,7 @@
 import React, { Component, useImperativeHandle } from 'react';
+import DescriptionIcon from '@material-ui/icons/Description';
+import FolderIcon from '@material-ui/icons/Folder';
+import Grid from '@material-ui/core/Grid';
 
 
 export default class FileContainer extends Component {
@@ -12,14 +15,42 @@ export default class FileContainer extends Component {
   }
 
   mapElements(elements, directoryPath) {
-    return(
+    console.log(elements);
+    return (
       <div>
-        <p>{directoryPath}</p>
+        <p style={{ color: 'blueviolet' }}>{directoryPath}</p>
         {elements.map((element, i) => {
-          return <p>{element[0]}</p>
+          return <div key={i} className="element-entry">
+            <Grid container >
+              {element[1]['file-size'] === '0'
+                ? this.createDirectoryicon(element)
+                : this.createFileIcon(element)
+              }
+
+            </Grid>
+          </div>
         })}
       </div>
     )
+
+  }
+
+  createFileIcon(file) {
+    return (
+      <Grid item xs={3} >
+        <DescriptionIcon />
+        <p>{file[0]}</p>
+      </Grid>
+    );
+  }
+
+  createDirectoryicon(directory) {
+    return (
+      <Grid item xs={3} >
+        <FolderIcon />
+        <p>{directory[0]}</p>
+      </Grid>
+    );
 
   }
 
@@ -29,8 +60,8 @@ export default class FileContainer extends Component {
     return (
       <div>
         {elements != undefined
-        ? this.mapElements(elements, dirPath)
-        : <p></p>
+          ? this.mapElements(elements, dirPath)
+          : <p></p>
         }
       </div>
 

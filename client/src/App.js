@@ -38,6 +38,9 @@ export default class Appp extends Component {
             <p>side bar</p>
           </Grid>
           <Grid item xs={9} className='main-content'>
+
+            <p style={{textAlign: 'center'}}>main content</p>
+
             {!this.state.apiResponded 
               ? <p>Loading . .. </p>
               : <FileContainer files={this.state.files}/>
