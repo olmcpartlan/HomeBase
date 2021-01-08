@@ -15,7 +15,7 @@ export default class Appp extends Component {
   }
 
   componentDidMount() {
-    fetch("/boost_lib")
+    fetch("/boost_lib/")
       .then(res => res.json())
       .then(res =>
         this.setState({
@@ -39,11 +39,11 @@ export default class Appp extends Component {
           </Grid>
           <Grid item xs={9} className='main-content'>
 
-            <p style={{textAlign: 'center'}}>main content</p>
+            <p style={{ textAlign: 'center' }}>main content</p>
 
-            {!this.state.apiResponded 
+            {!this.state.apiResponded
               ? <p>Loading . .. </p>
-              : <FileContainer files={this.state.files}/>
+              : <FileContainer files={this.state.files} />
             }
           </Grid>
 

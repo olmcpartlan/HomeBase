@@ -1,7 +1,6 @@
 import React, { Component, useImperativeHandle } from 'react';
-import DescriptionIcon from '@material-ui/icons/Description';
-import FolderIcon from '@material-ui/icons/Folder';
 import Grid from '@material-ui/core/Grid';
+import { DirectoryElement, FileElement } from './FileElements';
 
 
 export default class FileContainer extends Component {
@@ -15,44 +14,35 @@ export default class FileContainer extends Component {
   }
 
   mapElements(elements, directoryPath) {
-    console.log(elements);
     return (
       <div>
-        <p style={{ color: 'blueviolet' }}>{directoryPath}</p>
-        {elements.map((element, i) => {
-          return <div key={i} className="element-entry">
-            <Grid container >
+        <Grid container spacing={10}>
+          <Grid item >
+            <p style={{ color: 'blueviolet' }}>{directoryPath}</p>
+
+          </Grid>
+
+        </Grid>
+        <Grid container  xs={12} spacing={3} >
+
+
+          {elements.map((element, i) => {
+            return <Grid item xs={3} className="element-entry" key={i}>
               {element[1]['file-size'] === '0'
-                ? this.createDirectoryicon(element)
-                : this.createFileIcon(element)
+                ? <DirectoryElement directory={element} />
+                : <FileElement file={element} />
               }
-
             </Grid>
-          </div>
-        })}
+
+          })}
+
+
+        </Grid>
       </div>
-    )
-
-  }
-
-  createFileIcon(file) {
-    return (
-      <Grid item xs={3} >
-        <DescriptionIcon />
-        <p>{file[0]}</p>
-      </Grid>
-    );
-  }
-
-  createDirectoryicon(directory) {
-    return (
-      <Grid item xs={3} >
-        <FolderIcon />
-        <p>{directory[0]}</p>
-      </Grid>
     );
 
   }
+
 
   render() {
     const dirPath = this.state.files['directory-path'];
@@ -70,3 +60,4 @@ export default class FileContainer extends Component {
 
 
 }
+

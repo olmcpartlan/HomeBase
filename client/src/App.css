@@ -22,3 +22,21 @@
   background-color: #282c34;
   color: white;
 }
+
+
+.element-entry {
+  text-align: center;
+}
+
+.file-icon {
+  width: 100px;
+}
+
+.element-icon {
+  transform: scale(3);
+
+}
+
+.dir-path {
+  border: 1px solid green;
+}
