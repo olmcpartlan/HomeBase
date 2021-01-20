@@ -1,4 +1,5 @@
 import React, { Component, useImperativeHandle } from 'react';
+import { spacing } from '@material-ui/system/spacing'; 
 import Grid from '@material-ui/core/Grid';
 import { DirectoryElement, FileElement } from './FileElements';
 
@@ -15,20 +16,29 @@ export default class FileContainer extends Component {
 
   mapElements(elements, directoryPath) {
     return (
-      <div>
-        <Grid container spacing={10}>
+      <Grid container className="element-container" >
+        {/* Filepath breadcrumbs. */}
+        <Grid container justify='center' >
           <Grid item >
             <p style={{ color: 'blueviolet' }}>{directoryPath}</p>
-
           </Grid>
 
         </Grid>
-        <Grid container  xs={12} spacing={3} >
-
-
+        <Grid 
+          container 
+          alignContent='flex-start'
+          className="element-body"
+          >
           {elements.map((element, i) => {
-            return <Grid item xs={3} className="element-entry" key={i}>
-              {element[1]['file-size'] === '0'
+            {/* xs = 3 will allow four items on each row */}
+            return <Grid 
+                    item 
+                    xs={3} 
+                    style={{marginTop:20}} 
+                    className="element-entry" 
+                    key={i} >
+              {/* Check what type of sytling to use for element */}
+              {element[1]['file-type'] === 'directory'
                 ? <DirectoryElement directory={element} />
                 : <FileElement file={element} />
               }
@@ -38,7 +48,7 @@ export default class FileContainer extends Component {
 
 
         </Grid>
-      </div>
+      </Grid>
     );
 
   }
@@ -48,12 +58,12 @@ export default class FileContainer extends Component {
     const dirPath = this.state.files['directory-path'];
     const elements = Object.entries(this.state.files['elements']);
     return (
-      <div>
+      <Grid container style={{border:"1px solid purple"}}>
         {elements != undefined
           ? this.mapElements(elements, dirPath)
           : <p></p>
         }
-      </div>
+      </Grid>
 
     );
   }

@@ -13,10 +13,10 @@ class FileElement extends Component {
     const file = this.props.file;
     console.log(file);
     return (
-      <Grid item className="grid-item">
+      <Grid item className="grid-item" >
         <DescriptionIcon className="file-icon" className="element-icon"/>
         <p>{file[1]['file-name']}</p>
-        <p><small>{file[1]['file-size']} bytes</small></p>
+        <p className='file-size'><small>{file[1]['file-size']} bytes</small></p>
       </Grid>
 
     );
@@ -38,7 +38,6 @@ class DirectoryElement extends Component {
 
     );
   }
-
 }
 
 

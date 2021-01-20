@@ -23,7 +23,12 @@ std::string create_json(std::string &path)
         // Check if element is a directory, can't read the size, ext, ...
         bool is_directory = boost::filesystem::is_directory(entry.path().string());
 
-        // Create the JSON structure.    
+        if(entry.path().filename().size() == 0)
+        {
+          std::cout << "HIDDEN FILE: " << std::endl;
+        }
+
+        // Create the JSON structure.
         element.put("full-path", entry.path().string());
         element.put("file-name", entry.path().filename().string());
         element.put("file-type", is_directory ? "directory" : "file");
