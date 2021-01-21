@@ -32,6 +32,13 @@
 .element-body {
   min-height: 500px;
 }
+.file-path-separator {
+  margin: 0px 20px 0px 20px;
+}
+
+.file-path {
+  color: lightblue;
+}
 
 .file-icon {
   width: 100px;

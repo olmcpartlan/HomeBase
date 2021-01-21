@@ -11,7 +11,6 @@ class FileElement extends Component {
 
   render() {
     const file = this.props.file;
-    console.log(file);
     return (
       <Grid item className="grid-item" >
         <DescriptionIcon className="file-icon" className="element-icon"/>
@@ -29,10 +28,17 @@ class DirectoryElement extends Component {
   }
 
   render() {
+    // Directory is an object, first element is the clean name then some dir info
     const directory = this.props.directory;
+    console.log(directory);
+    // Send the clicked directory name back to update the intial fetch path
     return (
-      <Grid item  >
-        <FolderIcon width="100px" color="primary" className="element-icon"/>
+      <Grid item onClick={() => this.props.updatePathForward(directory[0])}>
+        <FolderIcon 
+          width="100px" 
+          color="primary" 
+          className="element-icon"
+        />
         <p>{directory[0]}</p>
       </Grid>
 

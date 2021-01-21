@@ -13,20 +13,18 @@ std::string create_json(std::string &path)
     // Create an empty property tree object.
     pt::ptree tree;
 
-   pt::ptree all_elements;
+    pt::ptree all_elements;
 
     // boost::filesystem::directory_entry in boost::filesystem::directory_iterator(path)
-    for (auto &entry : boost::make_iterator_range(boost::filesystem::directory_iterator(path), {}))
+    for (boost::filesystem::directory_entry &entry : boost::make_iterator_range(boost::filesystem::directory_iterator(path), {}))
     {
         pt::ptree element;
 
         // Check if element is a directory, can't read the size, ext, ...
         bool is_directory = boost::filesystem::is_directory(entry.path().string());
+        bool is_hidden = boost::filesystem::is_other(entry.path());
 
-        if(entry.path().filename().size() == 0)
-        {
-          std::cout << "HIDDEN FILE: " << std::endl;
-        }
+        if(is_hidden) continue;
 
         // Create the JSON structure.
         element.put("full-path", entry.path().string());
@@ -42,7 +40,7 @@ std::string create_json(std::string &path)
 
     }
 
-    tree.put("directory-path", path);
+    tree.put("directory-path", path.erase(0, 2));
     tree.push_back(std::make_pair("elements", all_elements));
 
 

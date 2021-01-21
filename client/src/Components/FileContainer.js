@@ -11,7 +11,10 @@ export default class FileContainer extends Component {
     this.state = {
       files: this.props.files
     }
-    console.log(this.state.files);
+  }
+
+  updatePathForward(selectedDirectory) {
+    this.props.updatePathForward(selectedDirectory)
   }
 
   mapElements(elements, directoryPath) {
@@ -19,9 +22,17 @@ export default class FileContainer extends Component {
       <Grid container className="element-container" >
         {/* Filepath breadcrumbs. */}
         <Grid container justify='center' >
-          <Grid item >
-            <p style={{ color: 'blueviolet' }}>{directoryPath}</p>
-          </Grid>
+          { directoryPath.split('/').map((element, i) => {
+            return <Grid item key={i}>
+              <a onClick={() => this.props.updatePathBackward(element)} href='javascript:void(0)' className='file-path'>{element}</a>
+
+              {i !== directoryPath.split('/').length - 1
+                ? <span className='file-path-separator'>/</span>
+                : <span></span>
+              }
+
+            </Grid>
+          })} 
 
         </Grid>
         <Grid 
@@ -34,12 +45,12 @@ export default class FileContainer extends Component {
             return <Grid 
                     item 
                     xs={3} 
-                    style={{marginTop:20}} 
+                    style={{marginTop:40}} 
                     className="element-entry" 
                     key={i} >
               {/* Check what type of sytling to use for element */}
               {element[1]['file-type'] === 'directory'
-                ? <DirectoryElement directory={element} />
+                ? <DirectoryElement updatePathForward={this.updatePathForward.bind(this)} directory={element} />
                 : <FileElement file={element} />
               }
             </Grid>
