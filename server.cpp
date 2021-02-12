@@ -103,14 +103,14 @@ void handle_request( beast::string_view doc_root, http::request<Body, http::basi
 		// [capture](params)
 
 		// Capture (bring in) ALL local variables to the anon function by VALUE
-		// [=] (int value) 
+		// [=] (int value)
 
 
 		// Capture (bring in) ALL local variables to the anon function by REFERENCE
-		// [&] (int value) 
+		// [&] (int value)
 
 		// Capture (bring in) local variable "val" to the anon function by REFERENCE
-		// [&val] (int value) 
+		// [&val] (int value)
 
     auto const bad_request =
     [&req](beast::string_view why)
@@ -160,8 +160,8 @@ void handle_request( beast::string_view doc_root, http::request<Body, http::basi
     std::cout << "Request start" << std::endl;
 
 
-    if( req.method() != http::verb::get 
-            && req.method() != http::verb::head 
+    if( req.method() != http::verb::get
+            && req.method() != http::verb::head
             && req.method() != http::verb::post )
             // when an error occurs call the anon functions declared above.
         return send(bad_request("Unknown HTTP-method"));
@@ -178,14 +178,14 @@ void handle_request( beast::string_view doc_root, http::request<Body, http::basi
 
 
     // Start building the path to the response file.
-    std::string path = path_cat(doc_root, req.target()); 
+    std::string path = path_cat(doc_root, req.target());
 
     /*
     if(req.target().back() == '/')
         path.append("index.html");
     */
 
- 
+
     beast::error_code ec;
     // Create the new file object to be attached to body.
     http::file_body::value_type body;
@@ -198,7 +198,7 @@ void handle_request( beast::string_view doc_root, http::request<Body, http::basi
 
 
     // If file doesnt exist, print the error to the console
-    if(ec) 
+    if(ec)
            std::cout << ec.message() << std::endl;
 
 
@@ -275,7 +275,7 @@ void handle_request( beast::string_view doc_root, http::request<Body, http::basi
         }
 
 
-        else 
+        else
         {
 
             std::cout << "Serving file: " << path << std::endl;
@@ -357,8 +357,8 @@ class session : public std::enable_shared_from_this<session>
 
 /*
 
-		std::shared_ptr is a smart pointer that retains shared ownership of an object through a pointer. 
-		Several shared_ptr objects may own the same object. 
+		std::shared_ptr is a smart pointer that retains shared ownership of an object through a pointer.
+		Several shared_ptr objects may own the same object.
 		The object is destroyed and its memory deallocated when either of the following happens:
 			the last remaining shared_ptr owning the object is destroyed;
 			the last remaining shared_ptr owning the object is assigned another pointer via operator= or reset().
@@ -590,4 +590,3 @@ int main(int argc, char* argv[])
 
     return EXIT_SUCCESS;
 }
-

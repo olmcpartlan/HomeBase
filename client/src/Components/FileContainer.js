@@ -25,7 +25,6 @@ export default class FileContainer extends Component {
           { directoryPath.split('/').map((element, i) => {
             return <Grid item key={i}>
               <a onClick={() => this.props.updatePathBackward(element)} href='javascript:void(0)' className='file-path'>{element}</a>
-
               {i !== directoryPath.split('/').length - 1
                 ? <span className='file-path-separator'>/</span>
                 : <span></span>
@@ -54,10 +53,7 @@ export default class FileContainer extends Component {
                 : <FileElement file={element} />
               }
             </Grid>
-
           })}
-
-
         </Grid>
       </Grid>
     );
@@ -69,7 +65,7 @@ export default class FileContainer extends Component {
     const dirPath = this.state.files['directory-path'];
     const elements = Object.entries(this.state.files['elements']);
     return (
-      <Grid container style={{border:"1px solid purple"}}>
+      <Grid container >
         {elements != undefined
           ? this.mapElements(elements, dirPath)
           : <p></p>

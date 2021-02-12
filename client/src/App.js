@@ -11,56 +11,50 @@ export default class Appp extends Component {
     this.state = {
       apiResponded: false,
       files: [],
-      filePath: "/boost_lib",
+      filePath: "",
     }
   }
 
   componentDidMount() {
-    this.fetchDirContents();
+    this.fetchDirContents("/boost_lib");
   }
 
   // Called on load and when an item is clicked. 
   // Checks the path on the server and responds with the contents and file information.
-  fetchDirContents() {
-    fetch(this.state.filePath)
+  fetchDirContents(newPath) {
+    fetch(newPath)
       .then(res => res.json())
       .then(res => {
         this.setState({ 
-          apiResponded: true,
           files: res,
+          apiResponded: true,
+          filePath: newPath
         })
-
-      });
-
+      })
 
   }
 
+
   updatePathBackward(selectedDirectory) {
     this.setState({apiResponded: false})
+    // Find the selected directory in the filepoath
     let newPathIndex = this.state.filePath.indexOf(selectedDirectory);
     let newPath = this.state.filePath.substring(0, newPathIndex + selectedDirectory.length);
-    this.setState({ 
-      filePath: newPath
-    });
-    this.fetchDirContents();
+    this.fetchDirContents(newPath);
 
   }
   // Append the desired directory to the end of the current path.
   updatePathForward(selectedDirectory) {
-    this.setState({apiResponded: false});
-    this.setState({ 
-      filePath: `${this.state.filePath}/${selectedDirectory}`
-    });
-    console.log(this.state.filePath)
-    this.fetchDirContents();
+    console.log(selectedDirectory);
+    this.setState({ apiResponded: false });
+    let newPath = `${this.state.filePath}/${selectedDirectory}`;
+    this.fetchDirContents(newPath);
 
   }
 
   render() {
-    console.log("files") 
-    console.log(this.state.files) 
     return (
-      <div className='main-container' >
+      <div className='main-container'>
         <Grid container>
           <Grid item xs={12} className='main-header'>
             <p>header</p>
@@ -71,23 +65,18 @@ export default class Appp extends Component {
             <p>side bar</p>
           </Grid>
           <Grid item xs={9} className='main-content'>
-
             <p style={{ textAlign: 'center' }}>main content</p>
 
-            {!this.state.apiResponded
-              ? <p>Loading . . . </p>
-              : <FileContainer 
-                  files={this.state.files} 
-                  updatePathBackward={this.updatePathBackward.bind(this)}
-                  updatePathForward={this.updatePathForward.bind(this)}
-                />
+            {this.state.apiResponded
+              ? <FileContainer
+                files={this.state.files}
+                updatePathBackward={this.updatePathBackward.bind(this)}
+                updatePathForward={this.updatePathForward.bind(this)}
+              />
+              : <p>Loading . . . </p>
             }
           </Grid>
-
         </Grid>
-
-
-
       </div>
     )
   }
