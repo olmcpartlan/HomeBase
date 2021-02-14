@@ -1,25 +1,23 @@
+#root {
+  overflow: hidden;
+}
 
 
 .main-header {
   text-align: center;
-  background-image: linear-gradient(blue, green);
 }
 
 .main-sidebar {
   text-align: center;
   border-right: 1px solid black;
-  min-height: 300px;
-
+  height: 95vh;
 }
 
-.main-content {
-  min-height: 850px;
-
-}
 
 .main-container {
-  background-color: #282c34;
+  background-image: linear-gradient(to top right, rgba(126,124,124,1) 0%, rgba(94,184,187,1));
   color: white;
+  height: 100vh;
 }
 
 
@@ -27,9 +25,20 @@
   text-align: center;
 }
 
-.element-body {
-  min-height: 500px;
+/*
+.main-content {
+  height: 90vh;
+
 }
+
+.element-body {
+  height: 90vh;
+}
+.element-container {
+  min-height: max-content;
+}
+ */
+
 .file-path-separator {
   margin: 0px 20px 0px 20px;
 }
@@ -41,11 +50,6 @@
 .file-icon {
   width: 100px;
 }
-
-.element-container {
-  min-height: max-content;
-}
-
 .element-icon {
   transform: scale(3);
 }
@@ -53,3 +57,4 @@
 .file-size {
   color: gray;
 }
+

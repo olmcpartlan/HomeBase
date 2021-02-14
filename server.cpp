@@ -62,10 +62,7 @@ mime_type(beast::string_view path)
 
 // Append an HTTP rel-path to a local filesystem path.
 // The returned path is normalized for the platform.
-std::string
-path_cat(
-    beast::string_view base,
-    beast::string_view path)
+std::string path_cat( beast::string_view base, beast::string_view path)
 {
     if(base.empty())
         return std::string(path);
@@ -78,12 +75,14 @@ path_cat(
     for(auto& c : result)
         if(c == '/')
             c = path_separator;
+
 #else
     char constexpr path_separator = '/';
     if(result.back() == path_separator)
         result.resize(result.size() - 1);
     result.append(path.data(), path.size());
 #endif
+    std::cout << "FROM PATH_CAT: " << result << std::endl;
     return result;
 }
 
@@ -172,6 +171,7 @@ void handle_request( beast::string_view doc_root, http::request<Body, http::basi
     // Check the target path is valid.
     if( req.target().empty() ||
         req.target()[0] != '/' ||
+        req.target()[1] != '~' ||
         req.target().find("..") != beast::string_view::npos)
         return send(bad_request("Illegal request-target"));
 
@@ -179,6 +179,16 @@ void handle_request( beast::string_view doc_root, http::request<Body, http::basi
 
     // Start building the path to the response file.
     std::string path = path_cat(doc_root, req.target());
+
+    std::cout << "PATH: " << path << std::endl;
+    if(path.find("~") != std::string::npos)
+    {
+        // boost::filesystem::path full_path(path.erase(0, 2));
+        boost::filesystem::path full_path = boost::filesystem::system_complete(path.erase(0,2));
+        path = full_path.c_str();
+        std::cout << "AFTER CONVERT: " << full_path << std::endl;
+    }
+
 
     /*
     if(req.target().back() == '/')
@@ -191,8 +201,9 @@ void handle_request( beast::string_view doc_root, http::request<Body, http::basi
     http::file_body::value_type body;
 
     // Read the contents of the file.
-    if(!boost::filesystem::is_directory(path.c_str()))
+    if(!boost::filesystem::is_directory(path.c_str()) || path.c_str()[0] != '~')
     {
+        std::cout << "IS DIRECTORY: " << path.c_str() << std::endl;
         body.open(path.c_str(), beast::file_mode::scan, ec);
     }
 
@@ -241,6 +252,10 @@ void handle_request( beast::string_view doc_root, http::request<Body, http::basi
 //------------------------------------------------------------------------------
 
     http::string_body::value_type string_body_type;
+
+        
+    // if(req.target()[0] != '~')
+
 
     // Respond to GET request
     if(req.method() == http::verb::get)
