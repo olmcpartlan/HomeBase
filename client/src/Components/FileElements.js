@@ -33,9 +33,9 @@ class DirectoryElement extends Component {
     // Send the clicked directory name back to update the intial fetch path
     return (
       <Grid item onClick={() => this.props.updatePathForward(directory[0])}>
-        <FolderIcon 
-          width="100px" 
-          color="primary" 
+        <FolderIcon
+          width="100px"
+          color="primary"
           className="element-icon"
         />
         <p>{directory[0]}</p>
